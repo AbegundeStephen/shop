@@ -14,7 +14,7 @@ dotenv.config()
 
 
 mongoose.connect(process.env.MONGO_URL)
-.then(() => console.log("Connection successful")) 
+.then(() => console.log("Connection has connected successfully")) 
 .catch((err) =>{console.log(err)})
 app.use(cors())
 app.use(express.json())
