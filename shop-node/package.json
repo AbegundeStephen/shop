@@ -16,8 +16,11 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "flutterwave-node": "^1.2.2",
+    "flutterwave-node-v3": "^1.0.12",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.1",
+    "open": "^8.4.1",
     "stripe": "^11.6.0"
   }
 }

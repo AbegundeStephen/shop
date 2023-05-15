@@ -12,30 +12,25 @@ import {persistStore,
     PURGE,
      REGISTER
 } from "redux-persist"
-export default configureStore({
-    reducer: {
-        cart : cartReducer,
-        user: userReducer 
-    }
-})
-
-
 
 
 const persistConfig={
-key: "root",
-version: 1,
-storage,
-};
+    key: "root",
+    version: 1,
+    storage,
+    };
+
 
 const rootReducer = combineReducers({user: userReducer, cart: cartReducer})
 const persistedReducer = persistReducer(persistConfig, rootReducer)
+    
 
 export const store = configureStore({
 reducer: persistedReducer,
-middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+middleware: (getDefaultMiddleware) =>
+ getDefaultMiddleware({
     serializableCheck: {
-        ignoreActions: [FLUSH,REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+        ignoredActions: [FLUSH,REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
     }
 })
 })

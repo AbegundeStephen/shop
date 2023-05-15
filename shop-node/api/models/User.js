@@ -1,18 +1,23 @@
 import mongoose from 'mongoose'
 
 const UserSchema = new mongoose.Schema({
-    firstname:{
+    fullname:{
         type:String,
         required:true
     },
-    lastname:{
+    username:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
-    username: {
-        type: String,
-        required: true,
-        unique: true,
+    phone: {
+        type:String
+    },
+    address: {
+        type: String
+    },
+    gender: {
+        type: String
     },
     email: {
         type: String,
@@ -22,8 +27,12 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-
+        unique: true,
     },
+
+    img: {
+        type: String,
+         },
     isAdmin: {
         type: Boolean,
         default: false

@@ -1,6 +1,6 @@
 import React from "react"
 import {FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined} from "@material-ui/icons"
-import styled from "styled-components"
+import styled from 'styled-components'
 import { Link } from "react-router-dom"
 
 const Info = styled.div`
@@ -18,6 +18,10 @@ justify-content: center;
 transition: all 0.5s ease;
 cursor: pointer;
 
+`
+const ProductTitle = styled.span`
+z-index:2;
+color green
 `
 const Container = styled.div`
 flex: 1;
@@ -65,16 +69,21 @@ transition: all 0.5s ease;
 
 const Product = ({item}) => {
     console.log(item)
-    return (
+    return (<>
         <Container>
-            <Circle/>
+            <Circle>
             <Image src={item.img}/>
             <Info>
                 <Icon><ShoppingCartOutlined/></Icon>
                 <Icon><Link to={`/product/${item._id}`}><SearchOutlined/></Link></Icon>
                 <Icon><FavoriteBorderOutlined/></Icon>
             </Info>
+           
+            </Circle>
+            <ProductTitle>#{item.price}</ProductTitle>
         </Container>
+       
+        </>
     )
 }
 

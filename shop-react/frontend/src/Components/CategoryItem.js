@@ -5,7 +5,8 @@ import {Link} from "react-router-dom"
 
 const Container = styled.div`
 width: 100%;
-height: 100%;
+height: 60%;
+margin-bottom:0;
 object-fit: cover;
 ${mobile({height:"20vh"})}
 `
@@ -23,8 +24,8 @@ const Info = styled.div`
 `
 
 const Title = styled.h1`
-color: white;
-matgin-bottom: 20px;
+color: goldenrod;
+margin-bottom: 20px;
 ` 
 
 const Image = styled.img`
@@ -39,7 +40,7 @@ const Button = styled.button`
  border: none;
  padding: 10px;
  background-color: white;
- color: gray;
+ color: grey;
  cursor: pointer;
  font-weight: 600;
 `

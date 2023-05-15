@@ -1,0 +1,16 @@
+.goback {
+ margin-left: auto, 0;
+ justify-content: center;
+padding: 10px;
+height: 5px;
+width: max-content;
+ 
+}
+
+.link {
+    text-decoration: none;
+    background-color:grey;
+    color: white;
+    font-weight: bolder;
+    text-transform: uppercase;
+}

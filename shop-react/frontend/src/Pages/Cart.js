@@ -9,6 +9,7 @@ import StripeCheckout from "react-stripe-checkout"
 import { useEffect, useState } from "react"
 import  userRequest  from "../userRequestMethod"
 import { useNavigate } from "react-router-dom"
+import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3"
 const KEY = process.env.REACT_APP_STRIPE
 
 const Container = styled.div``;
@@ -160,7 +161,27 @@ const Button = styled.button`
 `;
 
 
-const Cart = () => {
+export default function Cart () {
+  const config = {
+    public_key: 'FLWPUBK_TEST-098a2cdb5dd2daebd6b5eaa0a98217f1-X',
+    tx_ref: Date.now(),
+    amount: 100,
+    currency: 'NGN',
+    payment_options: 'card,mobilemoney,ussd',
+    customer: {
+      email: 'timilehin18@gmail.com',
+       phone_number: '07063164212',
+      name: 'Abegunde Stephen',
+    },
+    customizations: {
+      title: 'my Payment Title',
+      description: 'Payment for items in cart',
+      logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+    },
+  };
+  
+  const handleFlutterPayment = useFlutterwave(config);
+
   const cart = useSelector(state => state.cart)
   const [stripeToken, setStripeToken] = useState(null)
   const history = useNavigate()
@@ -246,23 +267,20 @@ useEffect(() => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <StripeCheckout>
-              name= "Abegunde"
-              image="https://avatars.githubusercontent.com/u/1486366?v=4"
-              billingAddress
-              shippingAddress
-              description={`Your total is ${cart.total}`}
-              amount={cart.total*100}
-              token={onToken}
-              stripeKey={KEY}
-              <Button>CHECKOUT NOW</Button>
-            </StripeCheckout>
+            <Button 
+            onClick={() => {
+              handleFlutterPayment({
+                callback: (response) => {
+                   console.log(response);
+                    closePaymentModal() // this will close the modal programmatically
+                },
+                onClose: () => {},
+              });
+            }}>CHECK OUT</Button>
           </Summary>
         </Bottom>
       </Wrapper>
       <Footer />
     </Container>
   );
-};
-
-export default Cart;
+          }

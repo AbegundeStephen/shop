@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { login } from "../redux/apiCalls";
 import {mobile} from "../responsive";
 import {useDispatch, useSelector} from 'react-redux'
-import { useNavigate } from "react-router-dom";
+
 
 
 const Container = styled.div`
@@ -69,8 +69,7 @@ const Error = styled.span`
 color: red;
 `
 
-const Login = () => {
-  const navigate = useNavigate()
+const Login = ({user}) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -82,7 +81,7 @@ const {isFetching,error} = useSelector((state) => state.user)
   const handleClick = (e) => {
    e.preventDefault()
    login(dispatch,{username, password})
-   navigate("/")
+
 
   }
   

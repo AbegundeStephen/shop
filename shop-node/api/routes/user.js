@@ -1,6 +1,7 @@
 import User from '../models/User.js'
 import express from 'express'
 import { verifyTokenAndAdmin,verifyTokenAndAuthorization } from './verifyToken.js'
+import CryptoJS from 'crypto-js'
 
 
 
@@ -11,7 +12,7 @@ const router = express.Router()
 //Update user 
 router.put('/:id', verifyTokenAndAuthorization, async (req,res) => {
     if (req.body.password) {
-        req.body.password = cryptoJS.AE5.encrypt(
+        req.body.password = CryptoJS.AES.encrypt(
             req.body.password,
             process.env.PASS_SEC
         ).toString();
@@ -64,6 +65,7 @@ router.get("/", verifyTokenAndAdmin, async (req,res) => {
 router.get("/stats", verifyTokenAndAdmin, async(req,res) => {
     const date = new Date();
     const lastYear = new Date(date.setFullYear(date.getDay()-1));
+    console.log(lastYear)
 
     try {
         const data = await User.aggregate([

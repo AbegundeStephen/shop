@@ -7,10 +7,14 @@ const router = express.Router()
 
 router.post('/register', async (req,res) => {
     const newUser = new User({
-        firstname:req.body.firstname,
-        lastname:req.body.lastname,
-        username: req.body.username,
+        fullname:req.body.fullname,
+        username:req.body.username,
         email: req.body.email,
+        phone: req.body.phone,
+        address:req.body.address,
+        img: req.body.img,
+        gender:req.body.gender,
+        isAdmin: req.body.isAdmin,
         password: crypto.AES.encrypt(
             req.body.password,
             process.env.PASS_SEC
@@ -41,9 +45,10 @@ router.post('/login',async(req,res) => {
         },
         process.env.JWT_SEC,{expiresIn: "3d"});
         const {password, ...others}= user._doc
-        res.status(200).json({...others,accesToken})
+        res.json({...others,accesToken})
+      
     }catch(err){
-        res.status(500).json(err)
+        console.log(err)
     }
 })
 

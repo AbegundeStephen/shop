@@ -1,8 +1,11 @@
-import styled from "styled-components";
-import { mobile } from "../responsive";
-import { useState } from "react";
-import publicRequest from "../publicRequestMethod.js"
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from "yup"
+import styled from 'styled-components';
+import { mobile } from '../responsive';
+import { useNavigate } from 'react-router-dom';
+import publicRequest from '../publicRequestMethod';
+
 
 const Container = styled.div`
   width: 100vw;
@@ -44,7 +47,7 @@ const Input = styled.input`
 `;
 
 const Agreement = styled.span`
-  font-size: 12px;
+  font-size: 15px;
   margin: 20px 0px;
 `;
 
@@ -57,60 +60,96 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+
+
 const Register = () => {
   const navigate = useNavigate()
-  const [formValue, setFormValue] = useState({
-    firstname:"",
-    lastname:"",
-    username:"",
-    email:"",
-    password:""
-  })
-
-  const handleChange = (e) => {
-   let value = e.target.value
-   setFormValue({...formValue,
-    [e.target.name]: value})
-  }
-
-  const postRegister = async(e) => {
-    e.preventDefault()
-    try {
-      const res = await publicRequest.post("/auth/register",{
-       firstname:formValue.firstname,
-       lastname:formValue.lastname,
-       username:formValue.username,
-       email:formValue.email,
-       password:formValue.password
-      })
-      console.log(res.data)
-      navigate("/login")
-
-    }catch(err){
-      console.log(err.response)
-    }
-  }
-
-  console.log(formValue)
+  // Pass the useFormik() hook initial form values and a submit function that will
+  // be called when the form is submitted
+  const formik = useFormik({
+    initialValues: {
+      fullname:"",
+      username:"",
+      email: "",
+      password:""
+    },
+    validationSchema: Yup.object({
+      fullname:Yup.string().required("*Required"),
+      username:Yup.string().required("*Required"),
+      email:Yup.string().email("Invalid email address").required("*Required"),
+      password: Yup.string().min(6,"Password must be at least 6 characters").required("*Required")
+    }),
+      // validate,
+    onSubmit: values => {
+       publicRequest.post("/auth/register", values)
+       .then(res => {
+        console.log(res.data)
+        navigate("/login")
+       })
+       .catch(err => {
+        console.log(err)
+        navigate('/register')
+       })
+  
+    },
+  });
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
-        <Form>
-          <Input placeholder="firstname" value={formValue.firstname} name="firstname" onChange={handleChange} />
-          <Input placeholder="last name" value={formValue.lastname} name="lastname" onChange={handleChange}/>
-          <Input placeholder="username" value={formValue.username} name="username" onChange={handleChange} />
-          <Input placeholder="email" value={formValue.email} name="email" onChange={handleChange}/>
-          <Input placeholder="password" value={formValue.password} name="password" onChange={handleChange} />
-          <Agreement>
+        <Form onSubmit={formik.handleSubmit}>
+  
+      <Input
+       placeholder='fullname'
+        id="fullname"
+        name="fullname"
+        type="fullname"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.fullname}
+      />
+      {formik.touched.fullname && formik.errors.fullname ? (<span style={{color:"red"}}>{formik.errors.fullname}</span>) : null}
+      
+       <Input
+        placeholder='username'
+        id="username"
+        name="username"
+        type="username"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.username}
+      />
+       { formik.touched.username && formik.errors.username ? (<span style={{color:"red"}}>{formik.errors.username}</span>) : null}
+ <Input
+         placeholder='email'
+        id="email"
+        name="email"
+        type="email"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.email}
+      />
+       { formik.touched.email && formik.errors.email ? ( <span style={{color:"red"}}>{formik.errors.email }</span>) : null}
+       <Input
+        placeholder='password'
+        id="password"
+        name="password"
+        type="password"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.password}
+      />
+       { formik.touched.password && formik.errors.password ? ( <span style={{color:"red"}}>{formik.errors.password }</span>) : null }
+       <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button type="submit" onClick={postRegister}>CREATE</Button>
-        </Form>
+      <Button type="submit">Submit</Button>
+    </Form>
       </Wrapper>
     </Container>
+   
   );
 };
 
-export default Register;
+export default Register

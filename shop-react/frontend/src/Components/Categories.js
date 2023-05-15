@@ -7,6 +7,8 @@ import React from "react"
 const Container = styled.div`
 display: flex;
 padding: 20px;
+height:max-content;
+padding-bottom:0;
 justify-content: space-between;
 ${mobile({padding: "0px", flexDirection:"column"})}
 `

@@ -14,7 +14,7 @@ dotenv.config()
 
 
 mongoose.connect(process.env.MONGO_URL)
-.then(() => console.log("Connection has connected successfully")) 
+.then(() => console.log("Connection to mongodb atlas is successful")) 
 .catch((err) =>{console.log(err)})
 app.use(cors())
 app.use(express.json())

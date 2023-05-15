@@ -5,6 +5,7 @@ import axios from "axios";
 const Container = styled.div`
 padding:20px;
 display:flex;
+margin-top:-20%;
 flex-wrap: wrap;
 justify-content: space-between;
 `;
@@ -22,7 +23,7 @@ const Products = ({category, filter, sort}) => {
           console.log(response.data)
          
         }catch(err) {
-         alert(err)
+         console.log(err)
         }
      }
      
